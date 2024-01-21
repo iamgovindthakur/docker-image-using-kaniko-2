@@ -15,7 +15,7 @@ jobs:
 
 # need to fix this
       - name: Check if Docker Registry Secret Exists
-        run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ -docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
+        run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
 
       - name: Deploy Kaniko Pod
         run: kubectl apply -f kaniko-pod.yaml
