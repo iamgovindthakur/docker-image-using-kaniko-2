@@ -1,4 +1,4 @@
-name: Kaniko Build
+name: Build and Push Docker Image
 
 on:
   push:
@@ -6,27 +6,25 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push:
     runs-on: self-hosted
-
-    container:
-      image: gcr.io/kaniko-project/executor:latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Build Docker Image
-        run: |
-          /kaniko/executor \
-            --context $GITHUB_WORKSPACE \
-            --dockerfile $GITHUB_WORKSPACE/Dockerfile \
-            --destination your-registry/your-repository:your-tag
-        env:
-          GITHUB_WORKSPACE: ${{ github.workspace }}
-          DOCKER_BUILDKIT: 1
-          DOCKER_CLI_JSON: 1
+      - name: Set up Kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      # Use cat to keep the container running
-      - name: Use cat to keep the container running
-        run: cat
+      - name: Deploy Kaniko Pod
+        run: kubectl apply -f path/to/your/kaniko-pod.yaml
+
+      - name: Wait for Kaniko Pod to complete
+        run: kubectl wait --for=condition=complete pod/kaniko
+
+      - name: Print Kaniko Pod logs
+        run: kubectl logs pod/kaniko
+
+      # Add any additional steps you need, such as deploying your application using the built image.
