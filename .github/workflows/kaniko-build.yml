@@ -1,0 +1,27 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+    container:
+      image: gcr.io/kaniko-project/executor:latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          /kaniko/executor --context $GITHUB_WORKSPACE --dockerfile $GITHUB_WORKSPACE/Dockerfile --destination iamgovindthakur/my-kaniko-image:latest
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          DOCKER_BUILDKIT: 1
+          DOCKER_CLI_JSON: 1
+          DOCKER_CLI_ACI: 0
+
+    env:
+      DOCKER_HOST: tcp://localhost:2375
