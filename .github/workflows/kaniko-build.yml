@@ -21,8 +21,9 @@ jobs:
             echo "Docker Registry Secret does not exist. Creating it..."
             kubectl create secret docker-registry regcred \
               --docker-server=https://index.docker.io/v1/ \
-              --docker-username=${{ secrets.DOCKER_PASSWORD }} \
-              --docker-password=${{ secrets.DOCKER_PASSWORD }}
+              --docker-username=iamgovindthakur \
+              --docker-password="somesecret" \
+              --docker-email="some_email"
           else
             echo "Docker Registry Secret already exists. Skipping creation."
           fi
