@@ -27,6 +27,6 @@ jobs:
           DOCKER_BUILDKIT: 1
           DOCKER_CLI_JSON: 1
 
-      # Sleep to keep the container running
-      - name: Sleep to keep the container running
-        run: sleep infinity
+      # Use cat to keep the container running
+      - name: Use cat to keep the container running
+        run: cat
