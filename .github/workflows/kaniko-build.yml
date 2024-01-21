@@ -18,6 +18,9 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
+      - name: Verify Kubernetes API Server URL
+        run: kubectl cluster-info
+
       - name: Deploy Kaniko Pod
         run: |
           kubectl apply -f kaniko-pod.yaml || (echo "Error details:" && kubectl describe -f kaniko-pod.yaml)
