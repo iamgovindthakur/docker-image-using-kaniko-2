@@ -22,15 +22,8 @@ jobs:
         run: kubectl cluster-info
 
 
-      - name: Create Docker Registry Secret
-        run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
-
-      - name: Echo Docker Registry Secrets
-        run: |
-          echo "DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}"
-# need to fix this
-      - name: Check if Docker Registry Secret Exists
-        run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
+      # - name: Create Docker Registry Secret
+      #   run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
 
       - name: Deploy Kaniko Pod
         run: kubectl apply -f kaniko-pod.yaml
