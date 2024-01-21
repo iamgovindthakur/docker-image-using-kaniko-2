@@ -21,9 +21,21 @@ jobs:
       - name: Verify Kubernetes API Server URL
         run: kubectl cluster-info
 
-      - name: Deploy Kaniko Pod
+
+      - name: Create Docker Registry Secret
         run: |
-          kubectl apply -f kaniko-pod.yaml || (echo "Error details:" && kubectl describe -f kaniko-pod.yaml)
+          kubectl create secret docker-registry regcred \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=${{ secrets.DOCKER_USERNAME }} \
+            --docker-password=${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Echo Docker Registry Secrets
+        run: |
+          echo "DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}"
+          echo "DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}"
+
+      - name: Deploy Kaniko Pod
+        run: kubectl apply -f kaniko-pod.yaml
 
       - name: Wait for Kaniko Pod to complete
         run: kubectl wait --for=condition=complete pod/kaniko
