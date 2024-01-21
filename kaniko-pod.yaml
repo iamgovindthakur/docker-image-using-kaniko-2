@@ -7,9 +7,9 @@ spec:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
     args:
-    - "--context=git://github.com/iamgovindthakur/docker-image-using-kaniko-3.git"
+    - "--context=git://github.com/iamgovindthakur/docker-image-using-kaniko-2.git"
     - "--dockerfile=Dockerfile"
-    - "--destination=iamgovindthakur/my-kaniko-image-without-docker:latest"
+    - "--destination=iamgovindthakur/my-kaniko-image-without-dockers:latest"
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
