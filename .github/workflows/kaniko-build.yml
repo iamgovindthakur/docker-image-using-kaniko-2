@@ -13,10 +13,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      # - name: Set up Kubectl
+      #   uses: azure/setup-kubectl@v1
+      #   with:
+      #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
       - name: Verify Kubernetes API Server URL
         run: kubectl cluster-info
