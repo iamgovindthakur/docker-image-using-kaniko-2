@@ -14,18 +14,8 @@ jobs:
         uses: actions/checkout@v2
 
 # need to fix this
-#       - name: Check if Docker Registry Secret Exists
-#         run: |
-#           secret_exists=$(kubectl get secret regcred --ignore-not-found | wc -l)
-#           if [ "$secret_exists" -eq "0" ]; then
-#             echo "Docker Registry Secret does not exist. Creating it..."
-#             kubectl create secret docker-registry regcred \
-#               --docker-server=https://index.docker.io/v1/ \
-#               --docker-username=
-#               --docker-password=
-#           else
-#             echo "Docker Registry Secret already exists. Skipping creation."
-#           fi
+      - name: Check if Docker Registry Secret Exists
+        run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ -docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
 
       - name: Deploy Kaniko Pod
         run: kubectl apply -f kaniko-pod.yaml
