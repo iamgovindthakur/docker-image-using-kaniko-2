@@ -19,7 +19,8 @@ jobs:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
       - name: Deploy Kaniko Pod
-        run: kubectl apply -f kaniko-pod.yaml
+        run: |
+          kubectl apply -f kaniko-pod.yaml || (echo "Error details:" && kubectl describe -f kaniko-pod.yaml)
 
       - name: Wait for Kaniko Pod to complete
         run: kubectl wait --for=condition=complete pod/kaniko
