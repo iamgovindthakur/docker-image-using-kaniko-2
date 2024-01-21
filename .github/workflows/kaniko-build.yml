@@ -13,17 +13,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # - name: Set up Kubectl
-      #   uses: azure/setup-kubectl@v1
-      #   with:
-      #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Verify Kubernetes API Server URL
-        run: kubectl cluster-info
-
-        #only one for one time
-      # - name: Create Docker Registry Secret
-      #   run: kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=iamgovindthakur --docker-password=dckr_pat_K_qBdHMwulChoizFDY3tRxTYxHY
+      - name: Check if Docker Registry Secret Exists
+        run: |
+          secret_exists=$(kubectl get secret regcred --ignore-not-found | wc -l)
+          if [ "$secret_exists" -eq "0" ]; then
+            echo "Docker Registry Secret does not exist. Creating it..."
+            kubectl create secret docker-registry regcred \
+              --docker-server=https://index.docker.io/v1/ \
+              --docker-username=${{ secrets.DOCKER_PASSWORD }} \
+              --docker-password=${{ secrets.DOCKER_PASSWORD }}
+          else
+            echo "Docker Registry Secret already exists. Skipping creation."
+          fi
 
       - name: Deploy Kaniko Pod
         run: kubectl apply -f kaniko-pod.yaml
