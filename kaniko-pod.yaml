@@ -9,7 +9,7 @@ spec:
     args:
     - "--context=git://github.com/iamgovindthakur/docker-image-using-kaniko-2.git"
     - "--dockerfile=Dockerfile"
-    - "--destination=iamgovindthakur/my-kaniko-image:latest"
+    - "--destination=iamgovindthakur/my-kaniko-image-without-docker:latest"
     volumeMounts:
     - name: kaniko-secret
       mountPath: /kaniko/.docker
